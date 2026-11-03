@@ -71,6 +71,7 @@ def resolver_tablero(tablero):
             comm.send(None, dest=trabajador, tag=TAG_CANCELAR)
 
     solucion = None
+    # Mientras haya trabajadores activos y no se haya encontrado solución, esperar resultados.
     while activos and solucion is None:
         estado = MPI.Status()
         resultado = comm.recv(source=MPI.ANY_SOURCE, tag=TAG_RESULTADO, status=estado)
@@ -137,11 +138,13 @@ def main():
 
     if rank == 0:
         seleccionados = seleccionar(parser, args.ruta)
+        print(f"Rank {rank} seleccionó {len(seleccionados)} seed(s) de {args.ruta}")
     else:
         seleccionados = None
     seleccionados = comm.bcast(seleccionados, root=0)
 
     if rank != 0:
+        print(f"Rank {rank} Comenzando a trabajar...")
         trabajar()
         return
 
@@ -152,14 +155,14 @@ def main():
         segundos = time.perf_counter() - inicio
         print(f"\nID: {identificador}")
         print("Resuelto" if resuelto else "Sin solución")
-        print(f"{'Tiempo' if args.id else 'Tiempo parcial'}: {segundos:.6f} segundos",
-              flush=True)
+        print(f"{'Tiempo' if args.id else 'Tiempo parcial'}: {segundos:.6f} segundos")
 
     for trabajador in range(1, size):
         comm.send(None, dest=trabajador, tag=TAG_FIN)
+        print(f"Rank {rank} envió TAG_FIN a trabajador {trabajador}")
+    print(f"Rank {rank} finalizó el procesamiento de todas las seeds. Esperando a que los trabajadores terminen...")
+    print(f"\nTiempo total: {time.perf_counter() - inicio_total:.6f} segundos")
     comm.Barrier()
-    if not args.id:
-        print(f"\nTiempo total: {time.perf_counter() - inicio_total:.6f} segundos")
 
 
 if __name__ == "__main__":

@@ -5,6 +5,7 @@ Implementa una versión MPI en esta carpeta. Reparte los IDs entre grupos de pro
 Registra el tiempo total de los 30 IDs y explica cómo elegiste el tamaño de los grupos. Añade aquí el comando para ejecutar tu implementación con el contenedor. Incluye `--allow-run-as-root --use-hwthread-cpus --oversubscribe` en `mpiexec`, como en la calibración.
 
 ## Solución:
+Se eligió el tamaño de grupo como el valor mínimo entre el número de trabajadores (11 procesadores) y la cantidad de semillas seleccionadas (30).
 
 Desde la raíz del proyecto ejecuta:
 
