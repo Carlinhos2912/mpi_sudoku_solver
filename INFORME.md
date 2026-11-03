@@ -4,10 +4,10 @@ Completa este informe después de implementar las tres tareas MPI. Ejecuta las c
 
 ## Entorno
 
-- Equipo:
-- Versión del contenedor:
+- Equipo: Ryzen 5 5500U (6 núcleos, 12 hilos)
+- Versión del contenedor: slim-mpi:2
 - Cantidad de repeticiones por medición: 3
-- Valor común de `N` elegido:
+- Valor común de `N` elegido: 11
 
 ## Comparación final con el mismo `N`
 
@@ -16,9 +16,9 @@ Repite tres veces cada ejecución y registra la mediana. Mantén fijo el `N` ele
 | Implementación | Caso | Procesos | Mediana del tiempo total (s) | Aceleración frente a secuencial |
 | --- | --- | ---: | ---: | ---: |
 | Secuencial | Todos los IDs | 1 |  | 1,00 |
-| MPI por tableros | Todos los IDs | N |  |  |
-| MPI por ramas | Todos los IDs, uno después de otro | N |  |  |
-| MPI híbrido | Todos los IDs | N |  |  |
+| MPI por tableros | Todos los IDs | 11 | 76.07 |  |
+| MPI por ramas | Todos los IDs, uno después de otro | 11 |  |  |
+| MPI híbrido | Todos los IDs | 11 |  |  |
 
 Calcula la aceleración como `tiempo secuencial / tiempo MPI`. Mide el tiempo MPI desde el inicio del reparto hasta recibir todos los resultados necesarios.
 
